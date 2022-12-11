@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Haydz6/rich-go/client"
 	"github.com/gin-gonic/gin"
-	"github.com/hugolgst/rich-go/client"
 )
 
 var LastGameId = 0
@@ -78,14 +78,25 @@ func SetPresence(c *gin.Context) {
 	c.String(http.StatusOK, "")
 }
 
+func KillActivity() {
+	err := client.SetActivity(client.Activity{
+		State: "end",
+	})
+
+	if err != nil {
+		println(err)
+	}
+}
+
 func TimeoutCheck() {
 	for range time.Tick(time.Second) {
+		println(time.Now().Unix() - LastPresenceUpdate)
 		if time.Now().Unix()-LastPresenceUpdate >= 3 {
 			if LoggedIn {
 				LoggedIn = false
+				KillActivity()
 				client.Logout()
 			}
-			break
 		}
 	}
 }
