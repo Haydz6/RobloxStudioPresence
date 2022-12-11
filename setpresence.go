@@ -90,7 +90,6 @@ func KillActivity() {
 
 func TimeoutCheck() {
 	for range time.Tick(time.Second) {
-		println(time.Now().Unix() - LastPresenceUpdate)
 		if time.Now().Unix()-LastPresenceUpdate >= 3 {
 			if LoggedIn {
 				LoggedIn = false
