@@ -8,7 +8,7 @@ func main() {
 	HostRun := ":7600"
 
 	gin.SetMode(gin.ReleaseMode)
-	router := gin.Default()
+	router := gin.New()
 
 	go TimeoutCheck()
 	router.POST("/", SetPresence)
